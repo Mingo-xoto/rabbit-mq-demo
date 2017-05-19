@@ -8,12 +8,11 @@
 	           	http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd">
 
 	<!-- 连接服务配置 -->
-<!-- 	<rabbit:connection-factory id="connectionFactory" -->
-<!-- 		host="${rabbit.host}" username="${rabbit.username}" password="${rabbit.password}" -->
-<!-- 		port="${rabbit.port}" /> -->
+	<!-- <rabbit:connection-factory id="connectionFactory" -->
+	<!-- host="${rabbit.host}" username="${rabbit.username}" password="${rabbit.password}" -->
+	<!-- port="${rabbit.port}" /> -->
 	<rabbit:connection-factory id="connectionFactory"
-		host="127.0.0.1" username="faker" password="faker110"
-		port="5672" />
+		host="127.0.0.1" username="faker" password="faker110" port="5672" />
 
 	<!-- spring amqp默认的是jackson 的一个插件,目的将生产者生产的数据转换为json存入消息队列 -->
 	<bean id="jsonMessageConverter"
@@ -42,6 +41,7 @@
 	<bean id="rabbitTemplateUtil" class="com.yhq.support.RabbitTemplateUtil">
 		<property name="rabbitTemplateMap">
 			<map>
+				<!-- key使用和exchange名称一样清晰 -->
 				<entry key="my-topic-exchange" value-ref="directTemplate" />
 				<entry key="my-direct-exchange" value-ref="topicTemplate" />
 				<entry key="my-fanout-exchange" value-ref="fanoutTemplate" />
