@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+                        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd  
+	            http://www.springframework.org/schema/rabbit
+	           	http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd">
+	<import resource="classpath:rabbitMq.xml" />
+	<!-- 定义消费者规则 -->
+	<!-- 主题交换机和绑定队列及其路由规则 -->
+	<rabbit:topic-exchange name="my-topic-exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="my-topic-queue1" pattern="#.my-topic-queue1.#" />
+			<rabbit:binding queue="my-topic-queue2" pattern="#.my-topic-queue2.#" />
+			<rabbit:binding queue="my-topic-queue3" pattern="#.my-topic-queue3.#" />
+			<rabbit:binding queue="my-topic-queue4" pattern="#.my-topic-queue4.#" />
+		</rabbit:bindings>
+	</rabbit:topic-exchange>
+
+	<!-- 直连交换机和绑定队列及其路由规则 -->
+	<rabbit:direct-exchange name="my-direct-exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="my-head-queue1" key="my-head-queue-key1"></rabbit:binding>
+			<rabbit:binding queue="my-head-queue2" key="my-head-queue-key2"></rabbit:binding>
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	<!-- 扇形交换机和绑定队列及其路由规则 -->
+	<rabbit:fanout-exchange name="my-fanout-exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="my-fanout-queue1"></rabbit:binding>
+			<rabbit:binding queue="my-fanout-queue2"></rabbit:binding>
+			<rabbit:binding queue="my-fanout-queue3"></rabbit:binding>
+		</rabbit:bindings>
+	</rabbit:fanout-exchange>
+
+	<!-- 头交换机和绑定队列 -->
+	<rabbit:headers-exchange name="my-head-exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="my-head-queue1">
+				<rabbit:binding-arguments>
+					<entry key="head1" value="faker" />
+					<entry key="head2" value="fader" />
+					<entry key="x-match" value="any" />
+				</rabbit:binding-arguments>
+			</rabbit:binding>
+			<rabbit:binding queue="my-head-queue2" key="head2"
+				value="saber"></rabbit:binding>
+		</rabbit:bindings>
+	</rabbit:headers-exchange>
+
+	<rabbit:headers-exchange name="my-head-all-exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="my-head-queue1">
+				<rabbit:binding-arguments>
+					<entry key="head1" value="faker" />
+					<entry key="head2" value="fader" />
+					<entry key="x-match" value="all" />
+				</rabbit:binding-arguments>
+			</rabbit:binding>
+			<rabbit:binding queue="my-head-queue2" key="head2"
+				value="saber"></rabbit:binding>
+		</rabbit:bindings>
+	</rabbit:headers-exchange>
+
+	<!-- 消费者监听队列动态信息 -->
+	<!-- <rabbit:listener-container -->
+	<!-- connection-factory="connectionFactory" message-converter="jsonMessageConverter"> -->
+	<!-- <rabbit:listener ref="queueLitener" method="listen" -->
+	<!-- queue-names="faker" /> -->
+	<!-- <rabbit:listener ref="queueLitener" method="listen" -->
+	<!-- queue-names="faker1" /> -->
+	<!-- <rabbit:listener ref="queueLitener" method="listen" -->
+	<!-- queue-names="fader" /> -->
+	<!-- <rabbit:listener ref="queueLitener" method="listen" -->
+	<!-- queue-names="saber" /> -->
+	<!-- </rabbit:listener-container> -->
+
+	<!-- <bean id="queueLitener" class="com.yhq.mq.QueueListener" /> -->
+</beans>
