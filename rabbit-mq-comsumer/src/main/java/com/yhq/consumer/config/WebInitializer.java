@@ -1,4 +1,4 @@
-package com.yhq.comsumer.config;
+package com.yhq.consumer.config;
 
 import javax.servlet.Filter;
 
@@ -6,6 +6,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.yhq.config.RabbitConfig;
+import com.yhq.propertys.Propertys;
 
 /**
  * web容器初始化类
@@ -17,7 +18,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { RootConfig.class, RabbitConfig.class };
+		return new Class[] { RootConfig.class };
 	}
 
 	@Override

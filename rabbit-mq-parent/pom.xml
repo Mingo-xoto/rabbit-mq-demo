@@ -8,6 +8,7 @@
 	<name>rabbit-mq-parent</name>
 	<url>http://maven.apache.org</url>
 	<modules>
+		<module>../rabbit-mq-support</module>
 		<module>../rabbit-mq-comsumer</module>
 		<module>../rabbit-mq-producer</module>
 	</modules>

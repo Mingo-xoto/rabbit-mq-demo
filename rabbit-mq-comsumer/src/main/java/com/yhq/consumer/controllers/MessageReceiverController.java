@@ -1,4 +1,4 @@
-package com.yhq.comsumer.controllers;
+package com.yhq.consumer.controllers;
 
 import java.util.Collection;
 
