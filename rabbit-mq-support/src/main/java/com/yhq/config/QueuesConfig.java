@@ -1,5 +1,7 @@
 package com.yhq.config;
 
+import java.util.ArrayList;
+
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,5 +50,19 @@ public class QueuesConfig {
 	@Bean
 	public Queue queue8() {
 		return new Queue("my-fanout-queue2", true);
+	}
+	
+	@Bean
+	public ArrayList<Queue> queues(){
+		ArrayList<Queue> queues = new ArrayList<Queue>();
+		queues.add(queue1());
+		queues.add(queue2());
+		queues.add(queue3());
+		queues.add(queue4());
+		queues.add(queue5());
+		queues.add(queue6());
+		queues.add(queue7());
+		queues.add(queue8());
+		return queues;
 	}
 }
