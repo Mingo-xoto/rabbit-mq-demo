@@ -1,4 +1,4 @@
-package com.yhq.comsumer.config;
+package com.yhq.consumer.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.yhq.comsumer.controllers", useDefaultFilters = false, includeFilters = {
+@ComponentScan(basePackages = "com.yhq.consumer.controllers", useDefaultFilters = false, includeFilters = {
 		@ComponentScan.Filter(type = FilterType.ANNOTATION, value = Controller.class) })
 public class MvcConfig extends WebMvcConfigurerAdapter {
 

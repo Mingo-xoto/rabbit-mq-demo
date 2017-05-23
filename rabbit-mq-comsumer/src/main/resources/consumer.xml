@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
                         http://www.springframework.org/schema/beans/spring-beans-4.1.xsd  
 	            http://www.springframework.org/schema/rabbit
-	           	http://www.springframework.org/schema/rabbit/spring-rabbit-1.7.xsd">
+	           	http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
 	<import resource="classpath:rabbitMq.xml" />
 	<!-- 定义消费者规则 -->
 	<!-- 主题交换机和绑定队列及其路由规则 -->
@@ -21,8 +21,8 @@
 	<!-- 直连交换机和绑定队列及其路由规则 -->
 	<rabbit:direct-exchange name="my-direct-exchange">
 		<rabbit:bindings>
-			<rabbit:binding queue="my-head-queue1" key="my-head-queue-key1"></rabbit:binding>
-			<rabbit:binding queue="my-head-queue2" key="my-head-queue-key2"></rabbit:binding>
+			<rabbit:binding queue="my-direct-queue1" key="my-head-queue-key1"></rabbit:binding>
+			<rabbit:binding queue="my-direct-queue2" key="my-head-queue-key2"></rabbit:binding>
 		</rabbit:bindings>
 	</rabbit:direct-exchange>
 
@@ -65,17 +65,31 @@
 	</rabbit:headers-exchange>
 
 	<!-- 消费者监听队列动态信息 -->
-	<!-- <rabbit:listener-container -->
-	<!-- connection-factory="connectionFactory" message-converter="jsonMessageConverter"> -->
-	<!-- <rabbit:listener ref="queueLitener" method="listen" -->
-	<!-- queue-names="faker" /> -->
-	<!-- <rabbit:listener ref="queueLitener" method="listen" -->
-	<!-- queue-names="faker1" /> -->
-	<!-- <rabbit:listener ref="queueLitener" method="listen" -->
-	<!-- queue-names="fader" /> -->
-	<!-- <rabbit:listener ref="queueLitener" method="listen" -->
-	<!-- queue-names="saber" /> -->
-	<!-- </rabbit:listener-container> -->
+	<rabbit:listener-container
+		connection-factory="connectionFactory" message-converter="jsonMessageConverter">
+		<rabbit:listener ref="queueLitener" method="listen1"
+			queue-names="my-head-queue1" />
+		<rabbit:listener ref="queueLitener" method="listen1"
+			queue-names="my-head-queue2" />
+		<rabbit:listener ref="queueLitener" method="listen2"
+			queue-names="my-topic-queue1" />
+		<rabbit:listener ref="queueLitener" method="listen2"
+			queue-names="my-topic-queue2" />
+		<rabbit:listener ref="queueLitener" method="listen2"
+			queue-names="my-topic-queue3" />
+		<rabbit:listener ref="queueLitener" method="listen2"
+			queue-names="my-topic-queue4" />
+		<rabbit:listener ref="queueLitener" method="listen3"
+			queue-names="my-fanout-queue1" />
+		<rabbit:listener ref="queueLitener" method="listen3"
+			queue-names="my-fanout-queue2" />
+		<rabbit:listener ref="queueLitener" method="listen3"
+			queue-names="my-fanout-queue3" />
+		<rabbit:listener ref="queueLitener" method="listen4"
+			queue-names="my-direct-queue1" />
+		<rabbit:listener ref="queueLitener" method="listen4"
+			queue-names="my-direct-queue2" />
+	</rabbit:listener-container>
 
-	<!-- <bean id="queueLitener" class="com.yhq.mq.QueueListener" /> -->
+	<bean id="queueLitener" class="com.yhq.consumer.listeners.QueueListener" />
 </beans>

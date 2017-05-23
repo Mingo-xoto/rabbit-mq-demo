@@ -32,11 +32,11 @@ public class MessagePublishController {
 	}
 
 	private void publish(RabbitTemplate amqpTemplate, String routingKey, String exchange) {
-		String body = routingKey + "Hello World!";
+		String body = "Hello World!";
 		// 指定消息发送到的转发器,绑定键值对headers键值对:头交换机
 		MessageProperties messageProperties = new MessageProperties();
 		messageProperties.setHeader("head1", "faker");
-		messageProperties.setHeader("head2", "fader1");
+		messageProperties.setHeader("head2", "fader");
 		Message message = new Message(body.getBytes(), messageProperties);
 		amqpTemplate.convertAndSend(exchange, routingKey, message);
 	}
