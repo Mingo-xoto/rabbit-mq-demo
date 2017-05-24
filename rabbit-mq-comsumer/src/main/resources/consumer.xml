@@ -65,7 +65,7 @@
 	</rabbit:headers-exchange>
 
 	<!-- 消费者监听队列动态信息 -->
-	<rabbit:listener-container
+	<rabbit:listener-container 
 		connection-factory="connectionFactory" message-converter="jsonMessageConverter">
 		<rabbit:listener ref="queueLitener" method="headListen"
 			queue-names="my-head-queue1" />
@@ -85,9 +85,9 @@
 			queue-names="my-fanout-queue2" />
 		<rabbit:listener ref="queueLitener" method="fanoutListen"
 			queue-names="my-fanout-queue3" />
-		<rabbit:listener ref="queueLitener" method="directListen"
+		<rabbit:listener ref="queueLitener" method="listen4"
 			queue-names="my-direct-queue1" />
-		<rabbit:listener ref="queueLitener" method="directListen"
+		<rabbit:listener ref="queueLitener" method="listen4"
 			queue-names="my-direct-queue2" />
 	</rabbit:listener-container>
 
