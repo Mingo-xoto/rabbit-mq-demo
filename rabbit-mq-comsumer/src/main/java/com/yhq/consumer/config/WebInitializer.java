@@ -5,9 +5,6 @@ import javax.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.yhq.config.RabbitConfig;
-import com.yhq.propertys.Propertys;
-
 /**
  * web容器初始化类
  * 

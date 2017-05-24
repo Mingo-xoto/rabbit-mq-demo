@@ -6,9 +6,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Controller;
 
-import com.yhq.config.RabbitConfig;
-import com.yhq.propertys.Propertys;
-
 /**
  * 
  * @author HuaQi.Yang

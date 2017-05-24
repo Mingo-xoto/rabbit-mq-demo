@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
@@ -26,7 +27,7 @@ import com.yhq.propertys.Propertys;
  */
 @Configuration
 @Import(value = { Propertys.class, RabbitConfig.class })
-public class ConsumerConfig extends RabbitConfig {
+public class ConsumerConfig {
 
 	/**
 	 * 创建rabbitAdmin代理
@@ -36,14 +37,24 @@ public class ConsumerConfig extends RabbitConfig {
 	 * @return
 	 */
 	@Bean
-	public AmqpAdmin amqpAdmin() {
-		return new RabbitAdmin(connectionFactory());
+	public AmqpAdmin amqpAdmin(ConnectionFactory connectionFactory) {
+		return new RabbitAdmin(connectionFactory);
 	}
 
+	/**
+	 * 消息监听容器
+	 * 
+	 * @author HuaQi.Yang
+	 * @date 2017年5月24日
+	 * @param queues
+	 * @param queueListener
+	 * @return
+	 */
 	@Bean
-	public SimpleMessageListenerContainer listenerContainer(ArrayList<Queue> queues, QueueListener queueListener) {
+	public SimpleMessageListenerContainer listenerContainer(ConnectionFactory connectionFactory,
+			ArrayList<Queue> queues, QueueListener queueListener) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-		container.setConnectionFactory(connectionFactory());
+		container.setConnectionFactory(connectionFactory);
 		container.addQueues(queues.toArray(new Queue[queues.size()]));
 		MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(queueListener);
 		Method methods[] = queueListener.getClass().getMethods();
