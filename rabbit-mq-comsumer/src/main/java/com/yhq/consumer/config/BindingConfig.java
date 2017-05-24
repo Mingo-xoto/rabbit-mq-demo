@@ -37,43 +37,43 @@ public class BindingConfig {
 	}
 
 	@Bean
-	public HeadersExchangeMapBindingCreator bind3(Queue queue3, HeadersExchange headExchange) {
+	public Binding bind3(Queue queue3, HeadersExchange headExchange) {
 		Map<String, Object> headerValues = new HashMap<>();
 		headerValues.put("head1", "faker");
 		headerValues.put("head2", "fader");
-		return BindingBuilder.bind(queue3).to(headExchange).whereAll(headerValues);
+		return BindingBuilder.bind(queue3).to(headExchange).whereAny(headerValues).match();
 	}
 
 	@Bean
-	public HeadersExchangeMapBindingCreator bind4(Queue queue4, HeadersExchange headExchange) {
+	public Binding bind4(Queue queue4, HeadersExchange headExchange) {
 		Map<String, Object> headerValues = new HashMap<>();
 		headerValues.put("head2", "saber");
-		return BindingBuilder.bind(queue4).to(headExchange).whereAll(headerValues);
+		return BindingBuilder.bind(queue4).to(headExchange).whereAny(headerValues).match();
 	}
 
 	@Bean
-	public HeadersExchangeMapBindingCreator bindAll3(Queue queue3, HeadersExchange headAllExchange) {
+	public Binding bindAll3(Queue queue3, HeadersExchange headAllExchange) {
 		Map<String, Object> headerValues = new HashMap<>();
 		headerValues.put("head1", "faker");
 		headerValues.put("head2", "fader");
-		return BindingBuilder.bind(queue3).to(headAllExchange).whereAll(headerValues);
+		return BindingBuilder.bind(queue3).to(headAllExchange).whereAll(headerValues).match();
 	}
 
 	@Bean
-	public HeadersExchangeMapBindingCreator bindAll4(Queue queue4, HeadersExchange headAllExchange) {
+	public Binding bindAll4(Queue queue4, HeadersExchange headAllExchange) {
 		Map<String, Object> headerValues = new HashMap<>();
 		headerValues.put("head2", "saber");
-		return BindingBuilder.bind(queue4).to(headAllExchange).whereAll(headerValues);
+		return BindingBuilder.bind(queue4).to(headAllExchange).whereAll(headerValues).match();
 	}
 
 	@Bean
 	public Binding bind5(Queue queue5, DirectExchange directExchange) {
-		return BindingBuilder.bind(queue5).to(directExchange).with("my-head-queue-key1");
+		return BindingBuilder.bind(queue5).to(directExchange).with("my-direct-queue1");
 	}
 
 	@Bean
 	public Binding bind6(Queue queue6, DirectExchange directExchange) {
-		return BindingBuilder.bind(queue6).to(directExchange).with("my-head-queue-key2");
+		return BindingBuilder.bind(queue6).to(directExchange).with("my-direct-queue2");
 	}
 
 	@Bean
