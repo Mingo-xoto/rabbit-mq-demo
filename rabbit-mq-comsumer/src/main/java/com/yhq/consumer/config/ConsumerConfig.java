@@ -11,6 +11,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -52,11 +53,12 @@ public class ConsumerConfig {
 	 */
 	@Bean
 	public SimpleMessageListenerContainer listenerContainer(ConnectionFactory connectionFactory,
-			ArrayList<Queue> queues, QueueListener queueListener) {
+			ArrayList<Queue> queues, QueueListener queueListener, Jackson2JsonMessageConverter converter) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.addQueues(queues.toArray(new Queue[queues.size()]));
 		MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(queueListener);
+		messageListenerAdapter.setMessageConverter(converter);
 		Method methods[] = queueListener.getClass().getMethods();
 		Map<String, String> methodNamesMap = new HashMap<>();
 		for (Method method : methods) {

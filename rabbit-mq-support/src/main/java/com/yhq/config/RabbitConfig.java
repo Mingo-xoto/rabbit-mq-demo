@@ -33,6 +33,12 @@ public class RabbitConfig {
 	@Value("${rabbit.port}")
 	private String port;
 
+	@Bean
+	public Jackson2JsonMessageConverter converter() {
+		Jackson2JsonMessageConverter jackson2JsonMessageConverter = new Jackson2JsonMessageConverter();
+		return jackson2JsonMessageConverter;
+	}
+
 	/**
 	 * 连接工厂
 	 *
@@ -51,41 +57,34 @@ public class RabbitConfig {
 
 	@Bean
 	public RabbitTemplate topicTemplate() {
-		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-		rabbitTemplate.setRoutingKey("topic-key");
-		rabbitTemplate.setExchange("my-topic-exchange");
-		return rabbitTemplate;
+		return createRabbitTemplate("my-topic-exchange", "topic-key");
 	}
 
 	@Bean
 	public RabbitTemplate headTemplate() {
-		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-		rabbitTemplate.setRoutingKey("head-key");
-		rabbitTemplate.setExchange("my-head-exchange");
-		return rabbitTemplate;
+		return createRabbitTemplate("my-head-exchange", "head-key");
 	}
 
 	@Bean
 	public RabbitTemplate headAllTemplate() {
-		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-		rabbitTemplate.setRoutingKey("head-all-key");
-		rabbitTemplate.setExchange("my-head-all-exchange");
-		return rabbitTemplate;
+		return createRabbitTemplate("my-head-all-exchange", "head-all-key");
 	}
 
 	@Bean
 	public RabbitTemplate directTemplate() {
-		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-		rabbitTemplate.setRoutingKey("direct-key");
-		rabbitTemplate.setExchange("my-direct-exchange");
-		return rabbitTemplate;
+		return createRabbitTemplate("my-direct-exchange", "direct-key");
 	}
 
 	@Bean
 	public RabbitTemplate fanoutTemplate() {
+		return createRabbitTemplate("my-topic-exchange", "topic-key");
+	}
+
+	private RabbitTemplate createRabbitTemplate(String exchange, String routingKey) {
 		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
-		rabbitTemplate.setRoutingKey("topic-key");
-		rabbitTemplate.setExchange("my-topic-exchange");
+		rabbitTemplate.setMessageConverter(converter());
+		rabbitTemplate.setExchange(exchange);
+		rabbitTemplate.setRoutingKey(routingKey);
 		return rabbitTemplate;
 	}
 
@@ -100,10 +99,5 @@ public class RabbitConfig {
 		RabbitTemplateUtil rabbitTemplateUtil = new RabbitTemplateUtil();
 		rabbitTemplateUtil.setRabbitTemplateMap(rabbitTemplateMap);
 		return rabbitTemplateUtil;
-	}
-
-	@Bean
-	public Jackson2JsonMessageConverter converter() {
-		return new Jackson2JsonMessageConverter();
 	}
 }

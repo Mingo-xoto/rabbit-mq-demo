@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.yhq.dto.MyMessage;
 import com.yhq.support.RabbitTemplateUtil;
 
 /**
@@ -32,12 +33,20 @@ public class MessagePublishController {
 	}
 
 	private void publish(RabbitTemplate amqpTemplate, String routingKey, String exchange) {
-		String body = "Hello World!";
-		// 指定消息发送到的转发器,绑定键值对headers键值对:头交换机
 		MessageProperties messageProperties = new MessageProperties();
 		messageProperties.setHeader("head1", "faker");
-		messageProperties.setHeader("head2", "fader");
-		Message message = new Message(body.getBytes(), messageProperties);
-		amqpTemplate.convertAndSend(exchange, routingKey, message);
+		// messageProperties.setHeader("head2", "fader");
+		// String body = "Hello World!";
+		// Message message = new Message(body.getBytes(), messageProperties);
+		// amqpTemplate.convertAndSend(exchange, routingKey, message);
+		MyMessage myMessage = new MyMessage("faker", "男", "skt T1 mid player", 20, 1000.0d);
+		// // 指定消息发送到的转发器,绑定键值对headers键值对:头交换机
+		amqpTemplate.convertAndSend(exchange, routingKey, myMessage);
+
+		amqpTemplate.convertAndSend(exchange, routingKey, myMessage, (msg) -> {
+			messageProperties.setContentType("json");
+			Message messages = new Message(msg.getBody(), messageProperties);
+			return messages;
+		});
 	}
 }

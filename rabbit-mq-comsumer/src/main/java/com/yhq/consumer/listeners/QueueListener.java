@@ -1,9 +1,12 @@
 package com.yhq.consumer.listeners;
 
+import java.util.LinkedHashMap;
+
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
 import com.yhq.config.QueuesConfig;
+import com.yhq.dto.MyMessage;
 
 /**
  * @author HuaQi.Yang
@@ -14,23 +17,34 @@ import com.yhq.config.QueuesConfig;
 public class QueueListener {
 
 	public void headListen(Object body) {
-		byte[] messages = (byte[]) body;
-		System.out.println("headListen:" + new String(messages));
+		String prefix = "headListen:";
+		show(prefix, body);
 	}
 
 	public void topicListen(Object body) {
-		byte[] messages = (byte[]) body;
-		System.out.println("topicListen:" + new String(messages));
+		String prefix = "topicListen:";
+		show(prefix, body);
 	}
 
 	public void fanoutListen(Object body) {
-		byte[] messages = (byte[]) body;
-		System.out.println("fanoutListen:" + new String(messages));
+		String prefix = "fanoutListen:";
+		show(prefix, body);
 	}
 
 	public void directListen(Object body) {
-		byte[] messages = (byte[]) body;
-		System.out.println("directListen:" + new String(messages));
+		String prefix = "directListen:";
+		show(prefix, body);
+	}
+
+	private void show(String prefix, Object body) {
+		if (body instanceof byte[]) {
+			System.out.println(prefix + new String(((byte[]) body)));
+		} else if (body instanceof LinkedHashMap) {
+			System.out.println(prefix + body);
+		} else {
+			MyMessage myMessage = (MyMessage) body;
+			System.out.println(prefix + new String(myMessage.toString()));
+		}
 	}
 
 }
